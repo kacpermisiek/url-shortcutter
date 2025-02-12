@@ -1,0 +1,36 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: "v4.5.0"
+    hooks:
+      - id: check-ast
+      - id: trailing-whitespace
+      - id: debug-statements
+      - id: end-of-file-fixer
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: "v1.13.0"
+    hooks:
+      - id: mypy
+        language_version: python3.10
+        files: ^(sidecar)
+        additional_dependencies: [types-requests, responses, types-pyyaml, types-retry, types-python-dateutil]
+
+  - repo: https://github.com/psf/black
+    rev: "24.10.0"
+    hooks:
+      - id: black
+        args: [--check]
+
+  - repo: https://github.com/pycqa/isort
+    rev: "5.13.2"
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: [--check]
+
+  - repo: https://github.com/pycqa/autoflake
+    rev: "v2.3.1"
+    hooks:
+      - id: autoflake
+        files: ^(sidecar)
+        args: ["--in-place", "--remove-all-unused-imports"]

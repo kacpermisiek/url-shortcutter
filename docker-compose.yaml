@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:15
+    restart: always
+    container_name: postgres
+    user: postgres
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    environment:
+        POSTGRES_PASSWORD: xyz
+        POSTGRES_USER: alice
+        POSTGRES_DB: url
+        PGPASSWORD: xyz
+    command: ["postgres"]
+    volumes:
+      - url-pg-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  app:
+    restart: always
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    environment:
+      - DATABASE_DSN=postgresql://alice:xyz@db:5432/url
+    depends_on:
+      - db
+    networks:
+      - backend
+
+volumes:
+  url-pg-data:
+
+networks:
+  backend:
