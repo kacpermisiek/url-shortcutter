@@ -13,8 +13,9 @@ RUN pip install poetry && \
 COPY ./alembic/. /url_shortcutter/alembic/.
 COPY alembic-db.ini /url_shortcutter/alembic.ini
 
-CMD ["alembic", "upgrade", "head"]
+COPY entrypoint.sh /url_shortcutter/entrypoint.sh
+RUN chmod +x entrypoint.sh
 
 EXPOSE 8000
 
-CMD ["uvicorn", "url_shortcutter.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+ENTRYPOINT ["./entrypoint.sh"]
