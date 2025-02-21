@@ -7,7 +7,9 @@ COPY ./url_shortcutter /url_shortcutter/url_shortcutter
 
 RUN pip install poetry && \
     poetry config virtualenvs.create false && \
-    poetry install
+    poetry install && \
+    apt-get update && \
+    apt-get install -y netcat-openbsd
 
 
 COPY ./alembic/. /url_shortcutter/alembic/.
